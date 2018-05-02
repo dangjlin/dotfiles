@@ -1,3 +1,12 @@
 bind status A !git commit -v --all
 bind status C !git commit -v
 bind main + !git commit -v --amend
+
+set main-view = \
+  line-number:no,interval=5 \
+  id:yes \
+  date:custom \
+  author:full,width=4 \
+  commit-title:yes,graph,refs,overflow=no
+
+set main-view-date-format = "%m/%d %H:%M"

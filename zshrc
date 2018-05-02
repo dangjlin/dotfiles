@@ -59,10 +59,10 @@ fi
 
 source ~/.zplug/init.zsh
 
-zplug "plugins/vi-mode", from:oh-my-zsh
-zplug "plugins/chruby",  from:oh-my-zsh
-zplug "plugins/bundler", from:oh-my-zsh
-zplug "plugins/rails",   from:oh-my-zsh
+ zplug "plugins/vi-mode", from:oh-my-zsh
+ zplug "plugins/chruby",  from:oh-my-zsh
+ zplug "plugins/bundler", from:oh-my-zsh
+# zplug "plugins/rails",   from:oh-my-zsh
 
 zplug "b4b4r07/enhancd", use:init.sh
 zplug "junegunn/fzf", as:command, hook-build:"./install --bin", use:"bin/{fzf-tmux,fzf}"
@@ -118,9 +118,9 @@ alias pa!='[[ -f config/puma.rb ]] && RAILS_RELATIVE_URL_ROOT=/`basename $PWD` b
 alias pa='[[ -f config/puma.rb ]] && RAILS_RELATIVE_URL_ROOT=/`basename $PWD` bundle exec puma -C $PWD/config/puma.rb -d'
 alias kpa='[[ -f tmp/pids/puma.state ]] && pumactl -S tmp/pids/puma.state stop'
 
-alias mc='bundle exec mailcatcher --http-ip 0.0.0.0'
+# alias mc='bundle exec mailcatcher --http-ip 0.0.0.0'
 alias kmc='pkill -fe mailcatcher'
-alias sk='[[ -f config/sidekiq.yml ]] && bundle exec sidekiq -C $PWD/config/sidekiq.yml -d'
+# alias sk='[[ -f config/sidekiq.yml ]] && bundle exec sidekiq -C $PWD/config/sidekiq.yml -d'
 alias ksk='pkill -fe sidekiq'
 
 pairg() { ssh -t $1 ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' -p $2 -t vagrant@localhost 'tmux attach' }
@@ -173,7 +173,51 @@ fixssh() {
     export $(tmux showenv SSH_AUTH_SOCK)
   fi
 }
+# 重啟 puma/unicorn（非 daemon 模式，用於 pry debug）
+rpy() {
+  if bundle show pry-remote > /dev/null 2>&1; then
+    bundle exec pry-remote
+  else
+    rpu pry
+  fi
+}
 # }}}
+
+# 啟動／停止 sidekiq
+rsidekiq() {
+ emulate -L zsh
+   if [[ -d tmp ]]; then
+     if [[ -r tmp/pids/sidekiq.pid && -n $(ps h -p `cat tmp/pids/sidekiq.pid` | tr -d ' ') ]]; then
+       case "$1" in
+         restart)
+           bundle exec sidekiqctl restart tmp/pids/sidekiq.pid
+           ;;
+         *)
+           bundle exec sidekiqctl stop tmp/pids/sidekiq.pid
+       esac
+    else
+      echo "Start sidekiq process..."
+      nohup bundle exec sidekiq  > ~/.nohup/sidekiq.out 2>&1&
+      disown %nohup
+    fi
+  else
+    echo 'ERROR: "tmp" directory not found.'
+  fi
+}
+
+
+# 啟動／停止 mailcatcher
+rmailcatcher() {
+  rm /home/vagrant/.nohup/mailcatcher.out
+  local pid=$(ps --no-headers -C mailcatcher -o pid,args | command grep '/bin/mailcatcher --http-ip' | sed 's/^ //' | cut -d' ' -f 1)
+  if [[ -n $pid ]]; then
+    kill $pid && echo "MailCatcher process $pid killed."
+  else
+    echo "Start MailCatcher process..."
+    nohup mailcatcher --http-ip 0.0.0.0 > ~/.nohup/mailcatcher.out 2>&1&
+    disown %nohup
+  fi
+}
 
 # aliases {{{
 alias px='ps aux'
@@ -198,12 +242,22 @@ alias vsf='va ssh -- -L 0.0.0.0:8080:localhost:80 -L 1080:localhost:1080'
 alias vup='va up'
 alias vsup='va suspend'
 alias vhalt='va halt'
+alias rc='rails c'
+alias gpl='git pull'
+alias gmd='git diff master...'
+alias ggpull='git pull origin $(git_current_branch)'
+alias gbr="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
+alias gba="git branch --all"
+alias gst='git status'
 # }}}
 
 # environment variables {{{
 export EDITOR=vim
 export VISUAL=vim
 #}}}
+
+# export TEST_ENV_NUMBER='2'
+# export USE_BOOTSNAP=1
 
 # key bindings {{{
 bindkey -M vicmd '^a' beginning-of-line
