@@ -8,7 +8,7 @@ case "$(uname -s)" in
     NAME=Darwin
 esac
 
-for tool (ag git-extras htop); do
+for tool (the_silver_searcher git-extras htop); do
   case "$NAME" in
     Ubuntu)
       [[ -z $(dpkg -l | grep $tool) ]] && sudo apt-get install -y $tool
@@ -216,6 +216,35 @@ bindkey '^j' autosuggest-accept
 
 bindkey '^p' history-substring-search-up
 bindkey '^n' history-substring-search-down
+bindkey "^[OF" end-of-line
+bindkey "^[[F" end-of-line
+bindkey "^[[4~" end-of-line
+bindkey "^[OH" beginning-of-line
+bindkey "^[[H" beginning-of-line
+bindkey "^[[1~" beginning-of-line
+
 # }}}
 
 # }}}
+case "$NAME" in
+  Darwin)
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+
+    export NVM_DIR=~/.nvm
+    source $(brew --prefix nvm)/nvm.sh
+
+    . $HOME/.asdf/asdf.sh
+
+    . $HOME/.asdf/completions/asdf.bash
+esac
+
+# export PATH="$HOME/.rbenv/bin:$PATH"
+# eval "$(rbenv init -)"
+
+# export NVM_DIR=~/.nvm
+# source $(brew --prefix nvm)/nvm.sh
+
+# . $HOME/.asdf/asdf.sh
+
+# . $HOME/.asdf/completions/asdf.bash
