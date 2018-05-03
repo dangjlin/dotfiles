@@ -8,16 +8,29 @@ case "$(uname -s)" in
     NAME=Darwin
 esac
 
-for tool (the_silver_searcher git-extras htop); do
-  case "$NAME" in
-    Ubuntu)
+# for tool (the_silver_searcher git-extras htop); do
+#   case "$NAME" in
+#     Ubuntu)
+#       [[ -z $(dpkg -l | grep $tool) ]] && sudo apt-get install -y $tool
+#       ;;
+#     Darwin)
+#       [[ -z $(brew list | grep $tool) ]] && brew install $tool
+#       ;;
+#   esac
+# done
+
+case "$NAME" in
+  Ubuntu)
+    for tool (silversearcher-ag git-extras htop); do
       [[ -z $(dpkg -l | grep $tool) ]] && sudo apt-get install -y $tool
-      ;;
-    Darwin)
+    done
+    ;;
+  Darwin)
+    for tool (the_silver_searcher git-extras htop); do
       [[ -z $(brew list | grep $tool) ]] && brew install $tool
-      ;;
-  esac
-done
+    done
+    ;;
+esac
 
 if [[ ! -d ~/.dotfiles ]]; then
   git clone git://github.com/szetobo/dotfiles.git ~/.dotfiles
@@ -291,6 +304,7 @@ case "$NAME" in
     . $HOME/.asdf/asdf.sh
 
     . $HOME/.asdf/completions/asdf.bash
+    ;;
 esac
 
 # export PATH="$HOME/.rbenv/bin:$PATH"
