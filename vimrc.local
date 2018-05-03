@@ -288,6 +288,9 @@ endif
 " colorscheme jellybeans
 " }}}
 
+" vim color scheme"
+colorscheme monokai-soda
+
 " Share VIM settings {{{
 " if $TMUX =~ "pair"
 "   source ~/.vimrc.share
