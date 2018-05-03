@@ -93,7 +93,8 @@ zhighlighters=(main brackets pattern cursor root)
 if [[ "$NAME" = "Ubuntu" ]]; then
   zprompt_theme='eriner'
 else
-  zprompt_theme='liquidprompt'
+  zplug denysdovhan/spaceship-zsh-theme, use:spaceship.zsh, from:github, as:theme
+  # zprompt_theme='liquidprompt'
 fi
 # }}}
 
