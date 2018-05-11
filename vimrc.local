@@ -189,13 +189,19 @@ function! s:rails_test_helpers()
     nnoremap <silent> [rtest]l :call <SID>rails_test_tmux('h')<CR>
     nnoremap <silent> [rtest]w :call <SID>rails_test_tmux('new-window')<CR>
     nnoremap <silent> [rtest]. :call <SID>rails_test_tmux('last')<CR>
-    nnoremap <silent> [rtest]t :call <SID>rails_test_tmux('last')<CR>
+    nnoremap <silent> [rtest]t :call <SID>rails_test_tmux('all')<CR>
     nnoremap <silent> [rtest]q :call <SID>rails_test_tmux('quit')<CR>
+    nnoremap <silent> [rtest]f :call <SID>rails_test_tmux('last', 1)<CR>
   end
 endfunction
 
-function! s:rails_test_tmux(method)
+function! s:rails_test_tmux(method, ...)
   let [it, path] = ['', '']
+  let whole_file = a:0 ? a:1 : 0
+  if a:method == 'last' && a:0 == 0
+    let whole_file = get(s:, 'rails_test_tmux_last_whole', 0)
+  endif
+
 
   let rails_type = rails#buffer().type_name()
   let rails_relative = rails#buffer().relative()
@@ -229,18 +235,22 @@ function! s:rails_test_tmux(method)
     let path = rails_relative
   end
 
-  if empty(it) || empty(path)
-    let it   = get(s:, 'rails_test_tmux_last_it', '')
-    let path = get(s:, 'rails_test_tmux_last_path', '')
-  end
+  if whole_file == 1 && empty(it)
+    let it = '_' " dummy value to make it non-empty
+  endif
+
+  " Try last used if nothing detected
+  let it   = empty(it)   ? get(s:, 'rails_test_tmux_last_it', '')   : it
+  let path = empty(path) ? get(s:, 'rails_test_tmux_last_path', '') : path
 
   if empty(it) || empty(path)
     echohl WarningMsg | echomsg 'No `it` block found' | echohl None
     return
   end
 
-  let s:rails_test_tmux_last_it = it
-  let s:rails_test_tmux_last_path = path
+  let s:rails_test_tmux_last_it    = whole_file ? '' : it
+  let s:rails_test_tmux_last_path  = path
+  let s:rails_test_tmux_last_whole = whole_file
 
   if rails_type == 'javascript-coffee'
     " https://github.com/modeset/teaspoon/wiki/Teaspoon-Configuration
@@ -253,7 +263,14 @@ function! s:rails_test_tmux(method)
   "   let test_command = printf('RAILS_RELATIVE_URL_ROOT= bundle exec rake test:integration TEST=%s', path)
   "   let title = matchstr(rails_type, '\vtest-\zs.{4}')
   else
-    let test_command = printf('USE_BOOTSNAP=0 be ruby -Itest %s --name /%s/', path, shellescape(escape(it, '()')))
+    " let test_command = printf('USE_BOOTSNAP=0 be ruby -Itest %s --name /%s/', path, shellescape(escape(it, '()')))
+    if a:method == 'all'
+      let test_command = printf('USE_BOOTSNAP=0 bundle exec ruby -Itest %s', path)
+    else
+      let name_filter = whole_file ? '' : printf(' --name /%s/', shellescape(escape(it, '()[]+?')))
+      let test_command = printf('USE_BOOTSNAP=0 bundle exec ruby -Itest %s%s', path, name_filter)
+    endif
+
     let type_short = matchstr(rails_type, '\vtest-\zs.{4}')
     if type_short == 'unit'
       let title = type_short

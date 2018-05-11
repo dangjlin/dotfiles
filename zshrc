@@ -263,6 +263,7 @@ alias ggpull='git pull origin $(git_current_branch)'
 alias gbr="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
 alias gba="git branch --all"
 alias gst='git status'
+alias gcom='git checkout master'
 # }}}
 
 # environment variables {{{
