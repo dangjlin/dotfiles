@@ -26,9 +26,9 @@ case "$NAME" in
     done
     ;;
   Darwin)
-    for tool (the_silver_searcher git-extras htop); do
-      [[ -z $(brew list | grep $tool) ]] && brew install $tool
-    done
+    # for tool (the_silver_searcher git-extras htop); do
+    #   [[ -z $(brew list | grep $tool) ]] && brew install $tool
+    # done
     ;;
 esac
 
@@ -46,6 +46,10 @@ if [[ ! -d ~/.dotfiles ]]; then
   ln -sf ~/.dotfiles/zshrc               ~/.zshrc
 
   mkdir -p ~/.psql_history
+fi
+
+if [[ ! -d ~/.asdf ]]; then
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.4.3
 fi
 
 if [[ ! -d ~/.maximum-awesome ]]; then
@@ -264,6 +268,7 @@ alias gbr="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %
 alias gba="git branch --all"
 alias gst='git status'
 alias gcom='git checkout master'
+alias gad="git add"
 # }}}
 
 # environment variables {{{
@@ -299,22 +304,14 @@ case "$NAME" in
   Darwin)
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
-
+    
     export NVM_DIR=~/.nvm
     source $(brew --prefix nvm)/nvm.sh
-
-    . $HOME/.asdf/asdf.sh
-
-    . $HOME/.asdf/completions/asdf.bash
     ;;
 esac
 
-# export PATH="$HOME/.rbenv/bin:$PATH"
-# eval "$(rbenv init -)"
+if [[ -d ~/.asdf ]]; then
+  . $HOME/.asdf/asdf.sh
+  . $HOME/.asdf/completions/asdf.bash
+fi
 
-# export NVM_DIR=~/.nvm
-# source $(brew --prefix nvm)/nvm.sh
-
-# . $HOME/.asdf/asdf.sh
-
-# . $HOME/.asdf/completions/asdf.bash
