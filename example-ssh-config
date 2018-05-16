@@ -1,0 +1,40 @@
+Host *
+  # ControlMaster auto
+  # ControlPath ~/.ssh/socket/mux_%h_%p_%r
+  # ControlPersist 20m
+
+  ExitOnForwardFailure yes
+  UseRoaming no
+
+  # ForwardX11 yes
+  # ForwardAgent yes
+
+Host dev.abagile.com
+  # HostName 192.168.1.25 # NOTE: must use this internal IP in Taipei office
+  Port 7788
+  User abagile
+
+Host gitlab.abagile.com
+  User git
+  Port 7788
+  ProxyCommand ssh -W %h:%p dev.abagile.com
+
+Host ci-runner.abagile.com
+  Port 7788
+  User ubuntu
+  ControlMaster no
+  ServerAliveInterval 1
+  ProxyCommand ssh -W %h:%p dev.abagile.com
+
+# Small memo:
+#
+# 1. to check ControlMaster status:
+#
+#    ssh -O check gitlab.abagile.com
+#
+# 2. to test git ssh:
+#
+#    GIT_SSH_COMMAND='ssh -vvv' git remote show origin
+
+
+# vim: filetype=sshconfig
