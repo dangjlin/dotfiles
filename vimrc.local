@@ -4,7 +4,7 @@
 set hidden
 set hlsearch
 set nowrap
-set cursorline
+set nocursorline
 set nostartofline
 if v:version > 702
   set relativenumber
