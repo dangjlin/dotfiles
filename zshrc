@@ -269,6 +269,8 @@ alias gba="git branch --all"
 alias gst='git status'
 alias gcom='git checkout master'
 alias gad="git add"
+
+alias rdm='rake db:migrate'
 # }}}
 
 # environment variables {{{
