@@ -33,7 +33,7 @@ case "$NAME" in
 esac
 
 if [[ ! -d ~/.dotfiles ]]; then
-  git clone git://github.com/szetobo/dotfiles.git ~/.dotfiles
+  git clone git://github.com/dangjlin/dotfiles.git ~/.dotfiles
 
   ln -sf ~/.dotfiles/gemrc               ~/.gemrc
   ln -sf ~/.dotfiles/inputrc             ~/.inputrc
