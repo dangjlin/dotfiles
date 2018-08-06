@@ -15,3 +15,5 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'dbeniamine/cheat.sh-vim'
 Plugin 'thinca/vim-quickrun'
 Plugin 'bootleq/vim-qrpsqlpq'
+" elixir section
+Plugin 'elixir-editors/vim-elixir'
