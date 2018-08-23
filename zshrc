@@ -242,6 +242,7 @@ rmailcatcher() {
 # aliases {{{
 alias px='ps aux'
 alias vt='vim -c :CtrlP'
+alias tm='tmux -2 attach || tmux new'
 
 alias sa='ssh-add'
 alias salock='ssh-add -x'
