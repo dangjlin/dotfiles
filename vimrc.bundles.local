@@ -18,3 +18,4 @@ Plugin 'bootleq/vim-qrpsqlpq'
 " elixir section
 Plugin 'elixir-editors/vim-elixir'
 Plugin 'w0rp/ale'
+Plugin 'andymass/vim-matchup'
