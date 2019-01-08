@@ -182,7 +182,7 @@ endfunction
 " }}}
 
 function! s:init_qrpsqlpq()
-  nmap <buffer> <Leader>r [qrpsqlpq]
+  nmap <buffer> <Leader>s [qrpsqlpq]
   nnoremap <silent> <buffer> [qrpsqlpq]j :call qrpsqlpq#run('split')<CR>
   nnoremap <silent> <buffer> [qrpsqlpq]l :call qrpsqlpq#run('vsplit')<CR>
   nnoremap <silent> <buffer> [qrpsqlpq]r :call qrpsqlpq#run()<CR>
