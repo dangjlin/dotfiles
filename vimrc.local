@@ -55,9 +55,9 @@ map <Up>   gk
 nmap <silent> <F4> :set invpaste<CR>:set paste?<CR>
 imap <silent> <F4> <ESC>:set invpaste<CR>:set paste?<CR>
 
-nmap <Leader>rb :SlimuxShellRun bundle exec ruby -Itest <C-R>=expand("%:f")<CR><CR>
-nmap <Leader>rl :SlimuxShellLast<CR>
-nmap <Leader>rc :SlimuxShellConfigure<CR>
+" nmap <Leader>rb :SlimuxShellRun bundle exec ruby -Itest <C-R>=expand("%:f")<CR><CR>
+" nmap <Leader>rl :SlimuxShellLast<CR>
+" nmap <Leader>rc :SlimuxShellConfigure<CR>
 
 vmap <Enter>   <Plug>(EasyAlign)
 " nmap <leader>a <Plug>(EasyAlign)
@@ -185,7 +185,7 @@ function! s:init_qrpsqlpq()
   nmap <buffer> <Leader>s [qrpsqlpq]
   nnoremap <silent> <buffer> [qrpsqlpq]j :call qrpsqlpq#run('split')<CR>
   nnoremap <silent> <buffer> [qrpsqlpq]l :call qrpsqlpq#run('vsplit')<CR>
-  nnoremap <silent> <buffer> [qrpsqlpq]r :call qrpsqlpq#run()<CR>
+  " nnoremap <silent> <buffer> [qrpsqlpq]r :call qrpsqlpq#run()<CR>
 
   if !exists('b:rails_root')
     call RailsDetect()
