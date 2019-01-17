@@ -118,6 +118,7 @@ source ~/.zplug/repos/junegunn/fzf/shell/completion.zsh
 export FZF_COMPLETION_TRIGGER=';'
 export FZF_TMUX=1
 
+export LC_ALL=en_US.UTF-8
 # }}}
 
 
