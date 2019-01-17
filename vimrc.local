@@ -48,6 +48,7 @@ nnoremap <leader>ev :vsp <C-R>=expand('%:h').'/'<cr>
 nnoremap <leader>et :tabe <C-R>=expand('%:h').'/'<cr>
 nnoremap <leader>fc <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 nnoremap <leader>q :bd<CR>
+nnoremap <leader>p o binding.pry<Esc>
 
 map <Down> gj
 map <Up>   gk
