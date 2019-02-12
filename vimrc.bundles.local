@@ -19,3 +19,8 @@ Plugin 'bootleq/vim-qrpsqlpq'
 Plugin 'elixir-editors/vim-elixir'
 Plugin 'w0rp/ale'
 Plugin 'andymass/vim-matchup'
+" react and javascript section
+Plugin 'mxw/vim-jsx'
+Plugin 'moll/vim-node'
+Plugin 'othree/yajs'
+Plugin 'othree/es.next.syntax.vim'
