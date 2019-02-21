@@ -333,7 +333,7 @@ endif
 " }}}
 
 " vim color scheme"
-colorscheme monokai-soda
+colorscheme monokain
 
 " Share VIM settings {{{
 " if $TMUX =~ "pair"
