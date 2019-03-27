@@ -203,6 +203,13 @@ rpy() {
   fi
 }
 # }}}
+#
+amoeba_test_reset() {
+  RAILS_ENV=test bundle exec rake db:drop
+  RAILS_ENV=test bundle exec rake db:create
+  RAILS_ENV=test bundle exec rake db:schema:load
+  RAILS_ENV=test bundle exec rake db:seed
+}
 
 # 啟動／停止 sidekiq
 rsidekiq() {
