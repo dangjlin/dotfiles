@@ -284,6 +284,9 @@ alias gad="git add"
 alias gitlast="git for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)' | sort -k5n -k2M -k3n -k4n"
 
 alias rdm='rake db:migrate'
+
+alias ys='yarn start'
+alias yi='yarn install'
 # }}}
 
 # environment variables {{{
