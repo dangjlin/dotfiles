@@ -43,6 +43,7 @@ nnoremap <silent> <s-tab> :bp<cr>
 
 nnoremap <leader>w  <C-W>
 nnoremap <leader>=  <C-W>=
+nnoremap <leader>,  <ESC>
 nnoremap <leader>s  :set nolist! nolist?<CR>
 nnoremap <leader>n  :set number! number?<CR>
 nnoremap <Leader>hl :set hlsearch! hlsearch?<CR>
