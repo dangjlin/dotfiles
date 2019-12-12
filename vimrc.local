@@ -6,6 +6,7 @@ set hlsearch
 set nowrap
 set nocursorline
 set nostartofline
+set noswapfile
 if v:version > 702
   set relativenumber
 endif
