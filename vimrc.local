@@ -292,12 +292,12 @@ function! s:rails_test_tmux(method, ...)
   "   let test_command = printf('RAILS_RELATIVE_URL_ROOT= bundle exec rake test:integration TEST=%s', path)
   "   let title = matchstr(rails_type, '\vtest-\zs.{4}')
   else
-    " let test_command = printf('USE_BOOTSNAP=0 be ruby -Itest %s --name /%s/', path, shellescape(escape(it, '()')))
+    " let test_command = printf('be ruby -Itest %s --name /%s/', path, shellescape(escape(it, '()')))
     if a:method == 'all'
-      let test_command = printf('USE_BOOTSNAP=0 bundle exec ruby -Itest %s', path)
+      let test_command = printf('bundle exec ruby -Itest %s', path)
     else
       let name_filter = whole_file ? '' : printf(' --name /%s/', shellescape(escape(it, '()[]+?')))
-      let test_command = printf('USE_BOOTSNAP=0 bundle exec ruby -Itest %s%s', path, name_filter)
+      let test_command = printf('bundle exec ruby -Itest %s%s', path, name_filter)
     endif
 
     let type_short = matchstr(rails_type, '\vtest-\zs.{4}')
