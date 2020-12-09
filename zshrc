@@ -310,6 +310,8 @@ alias gbr="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %
 alias gba="git branch --all"
 alias gst='git status'
 alias gcom='git checkout master'
+alias gcam='git commit --amend'
+alias gap='git commit -p'
 alias gad="git add"
 alias gco="git checkout"
 alias gfm="git pull"
