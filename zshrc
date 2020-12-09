@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # shell environment initialization {{{
 
 case "$(uname -s)" in
@@ -77,24 +84,47 @@ fi
 
 source ~/.zplug/init.zsh
 
- zplug "plugins/vi-mode", from:oh-my-zsh
- zplug "plugins/chruby",  from:oh-my-zsh
- zplug "plugins/bundler", from:oh-my-zsh
-# zplug "plugins/rails",   from:oh-my-zsh
 
+
+# History config
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+
+# zplug plugins
+zplug "romkatv/powerlevel10k", as:theme, depth:1
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-history-substring-search"
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zdharma/fast-syntax-highlighting"
+zplug "zpm-zsh/ls"
+zplug "plugins/docker", from:oh-my-zsh
+zplug "plugins/composer", from:oh-my-zsh
+zplug "plugins/extract", from:oh-my-zsh
+zplug "lib/completion", from:oh-my-zsh
+zplug "plugins/sudo", from:oh-my-zsh
 zplug "b4b4r07/enhancd", use:init.sh
-zplug "junegunn/fzf", as:command, hook-build:"./install --bin", use:"bin/{fzf-tmux,fzf}"
+zplug "plugins/vi-mode", from:oh-my-zsh
+zplug "plugins/chruby",  from:oh-my-zsh
+zplug "plugins/bundler", from:oh-my-zsh
+zplug "plugins/rails",   from:oh-my-zsh
+# zplug "plugins/git",   from:oh-my-zsh
 
-zplug "zsh-users/zsh-autosuggestions", defer:3
+# zplug "b4b4r07/enhancd", use:init.sh
+zplug "junegunn/fzf", as:command, hook-build:"./install --bin", use:"bin/{fzf-tmux,fzf}"
+# zplug "zimfw/zimfw", as:plugin, use:"init.zsh", hook-build:"ln -sf $ZPLUG_REPOS/zimfw/zimfw ~/.zim"
+
+# zplug "zsh-users/zsh-autosuggestions", defer:3
 
 # zim {{{
-# zplug "zimframework/zim", as:plugin, use:"init.zsh", hook-build:"ln -sf $ZPLUG_REPOS/zimframework/zim ~/.zim"
-zplug "zimfw/zimfw", as:plugin, use:"init.zsh", hook-build:"ln -sf $ZPLUG_REPOS/zimfw/zimfw ~/.zim"
+# zplug "zimfw/zimfw", as:plugin, use:"init.zsh", hook-build:"ln -sf $ZPLUG_REPOS/zimfw/zimfw ~/.zim"
 
-zmodules=(directory environment git git-info history input spectrum ssh utility meta \
-          syntax-highlighting history-substring-search prompt completion)
+# zmodules=(directory environment git git-info history input spectrum ssh utility meta \
+#           syntax-highlighting history-substring-search prompt completion)
+# zmodules=(git)
 
-zhighlighters=(main brackets pattern cursor root)
+# zhighlighters=(main brackets pattern cursor root)
 
 if [[ "$NAME" = "Ubuntu" ]]; then
   zprompt_theme='eriner'
@@ -110,7 +140,7 @@ fi
 
 zplug load #--verbose
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
+# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 
 source ~/.zplug/repos/junegunn/fzf/shell/key-bindings.zsh
 source ~/.zplug/repos/junegunn/fzf/shell/completion.zsh
@@ -265,6 +295,7 @@ alias -g P='| $PAGER'
 alias -g WC='| wc -l'
 alias -g RE='RESCUE=1'
 
+alias g=git
 alias va=vagrant
 alias vsh='va ssh'
 alias vsf='va ssh -- -L 0.0.0.0:8080:localhost:80 -L 1080:localhost:1080'
@@ -280,6 +311,8 @@ alias gba="git branch --all"
 alias gst='git status'
 alias gcom='git checkout master'
 alias gad="git add"
+alias gco="git checkout"
+alias gfm="git pull"
 alias gitlast="git for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)' | sort -k5n -k2M -k3n -k4n"
 
 alias rdm='rake db:migrate'
@@ -332,3 +365,5 @@ if [[ -d ~/.asdf ]]; then
   . $HOME/.asdf/completions/asdf.bash
 fi
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
