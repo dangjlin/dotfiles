@@ -174,7 +174,7 @@ alias kmc='pkill -fe mailcatcher'
 # alias sk='[[ -f config/sidekiq.yml ]] && bundle exec sidekiq -C $PWD/config/sidekiq.yml -d'
 alias ksk='pkill -fe sidekiq'
 
-pairg() { ssh -t $1 ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' -p $2 -t vagrant@localhost 'tmux attach' }
+pairg() { ssh -t $1 ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' -p $2 -t ${3:-vagrant}@localhost 'tmux attach'  }
 pairh() { ssh -S none -o 'ExitOnForwardFailure=yes' -R $2\:localhost:$2 -t $1 'watch -en 10 who' }
 
 cop() {
@@ -321,6 +321,8 @@ alias rdm='rake db:migrate'
 
 alias ys='yarn start'
 alias yi='yarn install'
+
+alias dbdp='/vagrant/scripts/db_dump.rb'
 # }}}
 
 # environment variables {{{
