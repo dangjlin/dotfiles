@@ -175,7 +175,8 @@ alias kmc='pkill -fe mailcatcher'
 alias ksk='pkill -fe sidekiq'
 
 pairg() { ssh -t $1 ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' -p $2 -t ${3:-vagrant}@localhost 'tmux attach'  }
-pairh() { ssh -S none -o 'ExitOnForwardFailure=yes' -R $2\:localhost:$2 -t $1 'watch -en 10 who' }
+pairh() { ssh -S none -o 'ExitOnForwardFailure=yes' -R $2\:localhost:22 -t $1 'watch -en 10 who' }
+
 
 cop() {
   local exts=('rb,thor,jbuilder')
