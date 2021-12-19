@@ -167,7 +167,25 @@ compctl -W ~/vagrant -/ vm
 # development shortcut {{{
 alias pa!='[[ -f config/puma.rb ]] && RAILS_RELATIVE_URL_ROOT=/`basename $PWD` bundle exec puma -C $PWD/config/puma.rb'
 alias pa='[[ -f config/puma.rb ]] && RAILS_RELATIVE_URL_ROOT=/`basename $PWD` bundle exec puma -C $PWD/config/puma.rb -d'
-alias kpa='[[ -f tmp/pids/puma.state ]] && pumactl -S tmp/pids/puma.state stop'
+# alias kpa='[[ -f tmp/pids/puma.state ]] && pumactl -S tmp/pids/puma.state stop'
+
+nrw() {
+  local folder_path
+  local folder_name
+  local asuka_path
+  [[ $PWD =~ '(.*perv|.*sg|.*nerv)'  ]] && folder_path=$match[1]
+  [[ $folder_path =~ '.*(perv|sg|nerv)$'  ]] && folder_name=$match[1]
+  asuka_path="$folder_path/eva/asuka"
+  cd $asuka_path && NERV_BASE=/${=folder_name} DEV_DARK_MODE=true npm run watch
+}
+
+repl() {
+  local folder_path
+  local adam_path
+  [[ $PWD =~ '(.*perv|.*sg|.*nerv)'  ]] && folder_path=$match[1]
+  adam_path="$folder_path/clojure/adam"
+  cd $adam_path && clj -M:dev:nrepl
+}
 
 # alias mc='bundle exec mailcatcher --http-ip 0.0.0.0'
 alias kmc='pkill -fe mailcatcher'
@@ -175,7 +193,7 @@ alias kmc='pkill -fe mailcatcher'
 alias ksk='pkill -fe sidekiq'
 
 pairg() { ssh -t $1 ssh -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' -p $2 -t ${3:-vagrant}@localhost 'tmux attach'  }
-pairh() { ssh -S none -o 'ExitOnForwardFailure=yes' -R $2\:localhost:$2 -t $1 'watch -en 10 who' }
+pairh() { ssh -S none -o 'ExitOnForwardFailure=yes' -R $2\:localhost:22222 -t $1 'watch -en 10 who' }
 
 cop() {
   local exts=('rb,thor,jbuilder')
@@ -263,6 +281,16 @@ rsidekiq() {
   fi
 }
 
+
+nrw() {
+  local folder_path
+  local folder_name
+  local asuka_path
+  [[ $PWD =~ '(.*perv|.*sg|.*nerv)'  ]] && folder_path=$match[1]
+  [[ $folder_path =~ '.*(perv|sg|nerv)$'  ]] && folder_name=$match[1]
+  asuka_path="$folder_path/eva/asuka"
+  cd $asuka_path && NERV_BASE=/${=folder_name} npm run watch
+}
 
 # 啟動／停止 mailcatcher
 rmailcatcher() {

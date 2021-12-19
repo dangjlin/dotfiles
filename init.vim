@@ -7,8 +7,19 @@ Plug 'tpope/vim-bundler'
 "================================================
 " Clojure
 "================================================
-Plug 'Olical/conjure', {'tag': 'v2.1.2', 'do': 'bin/compile'}
+" Plug 'Olical/conjure', {'tag': 'v2.1.2', 'do': 'bin/compile'}
+Plug 'Olical/conjure', {'tag': 'v4.23.0'}
 Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'} 
+Plug 'guns/vim-sexp'
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'tpope/vim-fireplace'
+Plug 'tpope/vim-projectionist'
+" Conjure support - jack-in with nrepl dependencies
+Plug 'tpope/vim-dispatch'
+Plug 'clojure-vim/vim-jack-in'
+" Only in Neovim:
+Plug 'radenling/vim-dispatch-neovim'"
 " sudo apt install clang libclang-dev
 "================================================
 " Dev Tools
@@ -54,7 +65,7 @@ Plug 'pedrohdz/vim-yaml-folds'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
-Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs', {'for': ['ruby', 'haml', 'eruby', 'coffee']}
 Plug 'Yggdroot/indentLine'
 "================================================
 " Theme
@@ -70,6 +81,8 @@ Plug 'morhetz/gruvbox'
 Plug 'arcticicestudio/nord-vim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'dracula/vim'
+Plug 'ssh://git@gitlab.abagile.com:7788/chiao.chuang/vim-abagile.git'
+
 call plug#end()
 "================================================
 " General
@@ -112,6 +125,8 @@ autocmd VimResized * :wincmd =
 " Remap
 "================================================
 let mapleader = ','
+let maplocalleader = ','
+
 " sometimes need , to repeat latest f, t, F or T in opposite direction
 noremap \ ,
 " Helps when I want to delete something without clobbering my unnamed register.
@@ -218,7 +233,8 @@ cnoremap w!! %!sudo tee > /dev/null %
 " indenting
 noremap <leader>in mmgg=G'm
 nmap <leader>p obinding.pry<ESC>^
-nmap <leader>c "ay
+" nmap <leader>c "ay
+nmap <leader>c <ESC>:close<CR>
 nmap <leader>vv "ap
 " window
 nmap <leader>w <C-w>
@@ -310,7 +326,7 @@ set showtabline=2
 " let ayucolor="light"  " for light version of theme
 " let ayucolor="mirage" " for mirage version of theme
 " colorscheme ayu       " l lightline: ayu_light / ayu_mirage
-colorscheme dracula   " lightline: dracula
+colorscheme gruvbox   " lightline: dracula
 " colorscheme iceberg   " lightline: iceberg
 let g:lightline = {
 \ 'colorscheme': 'dracula',
